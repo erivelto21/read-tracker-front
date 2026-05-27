@@ -10,20 +10,20 @@ The frontend talks to the `tracker/` Go API (see `tracker/AGENTS.md` for the API
 
 ## Technology Stack
 
-| Layer | Technology | Version |
-| :--- | :--- | :--- |
-| **Language** | TypeScript | `5.x` (strict mode) |
-| **UI Framework** | React | `18+` |
-| **Build Tool** | Vite | `5.x` |
-| **Styling** | Tailwind CSS | `4.x` |
-| **Server State** | TanStack Query (React Query) | `5.x` |
-| **HTTP Client** | Axios | `1.x` |
-| **Unit/Integration Tests** | Vitest + React Testing Library | latest |
-| **API Mocking** | MSW (Mock Service Worker) | `2.x` |
-| **E2E Tests** | Playwright | latest |
-| **Linter** | ESLint | `9.x` (flat config) |
-| **Formatter** | Prettier | `3.x` |
-| **Git Hooks** | Husky + lint-staged | latest |
+| Layer                      | Technology                     | Version             |
+| :------------------------- | :----------------------------- | :------------------ |
+| **Language**               | TypeScript                     | `5.x` (strict mode) |
+| **UI Framework**           | React                          | `18+`               |
+| **Build Tool**             | Vite                           | `5.x`               |
+| **Styling**                | Tailwind CSS                   | `4.x`               |
+| **Server State**           | TanStack Query (React Query)   | `5.x`               |
+| **HTTP Client**            | Axios                          | `1.x`               |
+| **Unit/Integration Tests** | Vitest + React Testing Library | latest              |
+| **API Mocking**            | MSW (Mock Service Worker)      | `2.x`               |
+| **E2E Tests**              | Playwright                     | latest              |
+| **Linter**                 | ESLint                         | `9.x` (flat config) |
+| **Formatter**              | Prettier                       | `3.x`               |
+| **Git Hooks**              | Husky + lint-staged            | latest              |
 
 ## Directory Structure
 
@@ -74,18 +74,18 @@ npm run dev
 
 ## Development Commands
 
-| Command | Description |
-| :--- | :--- |
-| `npm run dev` | Start Vite dev server with HMR |
-| `npm run build` | Production build |
-| `npm run preview` | Preview production build locally |
-| `npm run test` | Run unit/integration tests with Vitest |
-| `npm run test:coverage` | Run tests with coverage report |
-| `npm run test:e2e` | Run Playwright E2E tests |
-| `npm run lint` | Run ESLint |
-| `npm run fmt` | Run Prettier |
-| `npm run type-check` | Run `tsc --noEmit` |
-| `npm run api:gen` | Regenerate `src/api/generated.ts` from Swagger |
+| Command                 | Description                                    |
+| :---------------------- | :--------------------------------------------- |
+| `npm run dev`           | Start Vite dev server with HMR                 |
+| `npm run build`         | Production build                               |
+| `npm run preview`       | Preview production build locally               |
+| `npm run test`          | Run unit/integration tests with Vitest         |
+| `npm run test:coverage` | Run tests with coverage report                 |
+| `npm run test:e2e`      | Run Playwright E2E tests                       |
+| `npm run lint`          | Run ESLint                                     |
+| `npm run fmt`           | Run Prettier                                   |
+| `npm run type-check`    | Run `tsc --noEmit`                             |
+| `npm run api:gen`       | Regenerate `src/api/generated.ts` from Swagger |
 
 ---
 
@@ -106,8 +106,8 @@ export function getEnv(key: string): string {
 
 ```ts
 // ✅ Good
-import { getEnv } from '@/utils/env';
-const apiUrl = getEnv('VITE_API_URL');
+import { getEnv } from "@/utils/env";
+const apiUrl = getEnv("VITE_API_URL");
 
 // ❌ Bad
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -134,7 +134,7 @@ interface Title {
 }
 
 function mapTitle(raw: unknown): Title {
-  if (!isTitleShape(raw)) throw new Error('Invalid title shape');
+  if (!isTitleShape(raw)) throw new Error("Invalid title shape");
   return raw;
 }
 
@@ -152,21 +152,27 @@ Use constants or enums for any value that appears in more than one place, or tha
 
 ```ts
 // src/features/titles/types.ts
-export const TITLE_TYPES = ['book', 'manga', 'manhua', 'novel', 'article'] as const;
-export type TitleType = typeof TITLE_TYPES[number];
+export const TITLE_TYPES = [
+  "book",
+  "manga",
+  "manhua",
+  "novel",
+  "article",
+] as const;
+export type TitleType = (typeof TITLE_TYPES)[number];
 
 // src/lib/queryKeys.ts
 export const queryKeys = {
   titles: {
-    all: () => ['titles'] as const,
-    list: (filter: TitleFilter) => ['titles', 'list', filter] as const,
+    all: () => ["titles"] as const,
+    list: (filter: TitleFilter) => ["titles", "list", filter] as const,
   },
 } as const;
 
 // src/pages/routes.ts
 export const ROUTES = {
-  home: '/',
-  titles: '/titles',
+  home: "/",
+  titles: "/titles",
   title: (id: string) => `/titles/${id}`,
 } as const;
 ```
@@ -183,18 +189,20 @@ Component → useListTitles() hook → queryFn → src/api/titles.ts → src/api
 
 ```ts
 // src/api/titles.ts — typed API functions
-import { client } from './client';
-import type { Title, TitleFilter, CreateTitleInput } from './generated';
+import { client } from "./client";
+import type { Title, TitleFilter, CreateTitleInput } from "./generated";
 
-export async function listTitles(filter: TitleFilter): Promise<{ titles: Title[] }> {
-  const { data } = await client.get('/titles', { params: filter });
+export async function listTitles(
+  filter: TitleFilter,
+): Promise<{ titles: Title[] }> {
+  const { data } = await client.get("/titles", { params: filter });
   return data;
 }
 
 // src/features/titles/hooks/useListTitles.ts — hook wraps query
-import { useQuery } from '@tanstack/react-query';
-import { listTitles } from '@/api/titles';
-import { queryKeys } from '@/lib/queryKeys';
+import { useQuery } from "@tanstack/react-query";
+import { listTitles } from "@/api/titles";
+import { queryKeys } from "@/lib/queryKeys";
 
 export function useListTitles(filter: TitleFilter) {
   return useQuery({
@@ -264,7 +272,9 @@ export function TitleCard({ id }: { id: string }) {
 try {
   await createTitle(input);
 } catch (err: unknown) {
-  const message = isApiError(err) ? err.response.data.error.message : 'Something went wrong';
+  const message = isApiError(err)
+    ? err.response.data.error.message
+    : "Something went wrong";
   setErrorMessage(message);
 }
 ```
@@ -274,6 +284,7 @@ try {
 ### 8. Testing
 
 #### Philosophy
+
 - Test **behavior, not implementation**. Test what a user sees and does, not internal function calls.
 - Use **`userEvent`**, never `fireEvent`. It simulates real browser interactions.
 - Mock at the **network level with MSW**, not at the module/import level. This makes tests closer to reality.
@@ -313,10 +324,12 @@ Every interactive or meaningful element must have a `data-testid`. Use the forma
 ```
 
 #### E2E Tests (Playwright)
+
 - Cover critical user journeys: create a title, list titles, update progress.
 - Never hit the real API in E2E — use MSW or a test server.
 
 #### What NOT to do
+
 - No snapshot tests — they break for unrelated reasons and add no signal.
 - No testing implementation details (don't assert on internal state or function calls).
 - No disabled `eslint` rules in test files to silence typing errors.
@@ -332,33 +345,33 @@ Every interactive or meaningful element must have a `data-testid`. Use the forma
 
 ```tsx
 // ✅ Good
-import { clsx } from 'clsx';
+import { clsx } from "clsx";
 
-const buttonVariants = cva('rounded px-4 py-2 font-medium', {
+const buttonVariants = cva("rounded px-4 py-2 font-medium", {
   variants: {
     intent: {
-      primary: 'bg-blue-600 text-white hover:bg-blue-700',
-      ghost: 'bg-transparent text-blue-600 hover:bg-blue-50',
+      primary: "bg-blue-600 text-white hover:bg-blue-700",
+      ghost: "bg-transparent text-blue-600 hover:bg-blue-50",
     },
   },
 });
 
 // ❌ Bad
-<button style={{ padding: '8px 16px', borderRadius: '4px' }}>Click</button>
+<button style={{ padding: "8px 16px", borderRadius: "4px" }}>Click</button>;
 ```
 
 ---
 
 ### 10. Project Layer Responsibilities
 
-| Layer | Responsibility |
-| :--- | :--- |
-| `pages/` | Route-level shells. Thin wrappers. Delegate everything to features. |
-| `features/<name>/components/` | Render UI, emit events via props. No fetch, no business logic. |
-| `features/<name>/hooks/` | Data fetching, mutations, local state coordination. |
-| `api/` | Raw API calls with typed inputs/outputs. No React here. |
-| `components/` | Shared, stateless, reusable UI primitives. |
-| `utils/` | Pure utility functions. No side effects, no React. |
+| Layer                         | Responsibility                                                      |
+| :---------------------------- | :------------------------------------------------------------------ |
+| `pages/`                      | Route-level shells. Thin wrappers. Delegate everything to features. |
+| `features/<name>/components/` | Render UI, emit events via props. No fetch, no business logic.      |
+| `features/<name>/hooks/`      | Data fetching, mutations, local state coordination.                 |
+| `api/`                        | Raw API calls with typed inputs/outputs. No React here.             |
+| `components/`                 | Shared, stateless, reusable UI primitives.                          |
+| `utils/`                      | Pure utility functions. No side effects, no React.                  |
 
 ---
 
