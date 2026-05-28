@@ -30,3 +30,10 @@ export interface CreateTitlePayload {
   link?: string;
   observation?: string;
 }
+
+export interface UpdateTitlePayload {
+  chapter?: number;
+  page?: number;
+  link?: string;
+  observation?: string;
+}

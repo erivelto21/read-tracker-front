@@ -1,5 +1,7 @@
+import { useState } from "react";
 import type { Title } from "@/features/titles/types";
 import { TitleRow } from "./TitleRow";
+import { EditTitleModal } from "./EditTitleModal";
 import { useDeleteTitle } from "@/features/titles/hooks/useDeleteTitle";
 
 interface TitleTableProps {
@@ -14,8 +16,10 @@ export function TitleTable({
   onAddClick,
 }: TitleTableProps): React.JSX.Element {
   const { mutate: deleteTitle, isPending: isDeleting, variables: deletingId } = useDeleteTitle();
+  const [editingTitle, setEditingTitle] = useState<Title | null>(null);
 
   return (
+    <>
     <div
       data-testid="title-table"
       className="rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white"
@@ -43,7 +47,7 @@ export function TitleTable({
             <th className="px-4 py-2.5 text-left font-semibold">Type</th>
             <th className="px-4 py-2.5 text-right font-semibold">Progress</th>
             <th className="px-3 py-2.5 text-left font-semibold w-28">Status</th>
-            <th className="px-3 py-2.5 w-10" aria-label="Actions" />
+            <th className="px-3 py-2.5 w-20" aria-label="Actions" />
           </tr>
         </thead>
         <tbody data-testid="title-list-items">
@@ -65,6 +69,7 @@ export function TitleTable({
                 index={index}
                 onClick={onRowClick}
                 onDelete={(id) => { deleteTitle(id); }}
+                onEdit={(t) => { setEditingTitle(t); }}
                 isDeleting={isDeleting && deletingId === title.id}
               />
             ))
@@ -72,5 +77,13 @@ export function TitleTable({
         </tbody>
       </table>
     </div>
+
+    {editingTitle && (
+      <EditTitleModal
+        title={editingTitle}
+        onClose={() => { setEditingTitle(null); }}
+      />
+    )}
+    </>
   );
 }
