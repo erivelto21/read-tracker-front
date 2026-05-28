@@ -1,5 +1,5 @@
 import { client } from "./client";
-import type { Title, TitleFilter } from "@/features/titles/types";
+import type { Title, TitleFilter, CreateTitlePayload } from "@/features/titles/types";
 
 export async function listTitles(
   filter: TitleFilter,
@@ -12,4 +12,15 @@ export async function listTitles(
     params,
   });
   return data;
+}
+
+export async function createTitle(
+  payload: CreateTitlePayload,
+): Promise<{ data: Title }> {
+  const { data } = await client.post<{ data: Title }>("v1/titles", payload);
+  return data;
+}
+
+export async function deleteTitle(id: string): Promise<void> {
+  await client.delete(`v1/titles/${id}`);
 }
