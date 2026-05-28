@@ -4,6 +4,7 @@ import type { TitleType } from "@/features/titles/types";
 import { useListTitles } from "@/features/titles/hooks/useListTitles";
 import { TitleTable } from "@/features/titles/components/TitleTable";
 import { SegmentedControl } from "@/components/SegmentedControl";
+import { CreateTitleModal } from "@/features/titles/components/CreateTitleModal";
 
 type TypeOption = TitleType | "";
 
@@ -18,6 +19,7 @@ const TYPE_OPTIONS: { value: TypeOption; label: string }[] = [
 export function TitlesPage(): React.JSX.Element {
   const [name, setName] = useState("");
   const [type, setType] = useState<TypeOption>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isLoading, isError } = useListTitles({ name, type });
 
@@ -75,7 +77,15 @@ export function TitlesPage(): React.JSX.Element {
             titles={data?.titles ?? []}
             onRowClick={handleRowClick}
             onAddClick={() => {
-              /* TODO */
+              setIsModalOpen(true);
+            }}
+          />
+        )}
+
+        {isModalOpen && (
+          <CreateTitleModal
+            onClose={() => {
+              setIsModalOpen(false);
             }}
           />
         )}

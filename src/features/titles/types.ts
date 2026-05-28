@@ -21,3 +21,12 @@ export interface TitleFilter {
   name?: string;
   type?: TitleType | "";
 }
+
+export interface CreateTitlePayload {
+  name: string;
+  type: TitleType;
+  chapter?: number;
+  page?: number;
+  link?: string;
+  observation?: string;
+}
