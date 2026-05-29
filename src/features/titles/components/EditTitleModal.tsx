@@ -83,6 +83,12 @@ export function EditTitleModal({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
+    // Client-side validation: for article titles, link is required when updating
+    if (title.type === "article" && !fields.link.trim()) {
+      setFieldErrors((prev) => ({ ...prev, link: "This field is required" }));
+      return;
+    }
+
     const payload: Record<string, unknown> = {};
     if (fields.chapter.trim()) payload.chapter = Number(fields.chapter);
     if (fields.page.trim()) payload.page = Number(fields.page);
