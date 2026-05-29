@@ -58,7 +58,7 @@ function visibleFields(type: TitleType): FieldKey[] {
     case "novel":
       return ["name", "chapter", "link", "observation"];
     case "article":
-      return ["name", "observation"];
+      return ["name", "link", "observation"];
   }
 }
 
@@ -71,7 +71,7 @@ function requiredFields(type: TitleType): FieldKey[] {
     case "novel":
       return ["name", "chapter", "link"];
     case "article":
-      return ["name"];
+      return ["name", "link"];
   }
 }
 

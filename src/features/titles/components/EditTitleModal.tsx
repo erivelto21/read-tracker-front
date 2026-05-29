@@ -42,7 +42,7 @@ function visibleFields(type: TitleType): FieldKey[] {
     case "novel":
       return ["chapter", "link", "observation"];
     case "article":
-      return ["observation"];
+      return ["link", "observation"];
   }
 }
 
