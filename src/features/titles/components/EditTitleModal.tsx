@@ -66,7 +66,9 @@ export function EditTitleModal({
       if (e.key === "Escape") onClose();
     }
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, [onClose]);
 
   function handleFieldChange(key: FieldKey, value: string) {
@@ -74,7 +76,7 @@ export function EditTitleModal({
     if (fieldErrors[key]) {
       setFieldErrors((prev) => {
         const next = { ...prev };
-        delete next[key];
+        Reflect.deleteProperty(next, key);
         return next;
       });
     }

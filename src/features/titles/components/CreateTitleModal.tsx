@@ -94,7 +94,9 @@ export function CreateTitleModal({
       if (e.key === "Escape") onClose();
     }
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, [onClose]);
 
   // Task 3.8 — clear field error on change
@@ -103,7 +105,7 @@ export function CreateTitleModal({
     if (fieldErrors[key]) {
       setFieldErrors((prev) => {
         const next = { ...prev };
-        delete next[key];
+        Reflect.deleteProperty(next, key);
         return next;
       });
     }
