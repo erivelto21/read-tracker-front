@@ -7,8 +7,13 @@ export function useUpdateTitle() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, payload }: { id: string; payload: UpdateTitlePayload }) =>
-      updateTitle(id, payload),
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: UpdateTitlePayload;
+    }) => updateTitle(id, payload),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.titles.all() });
     },

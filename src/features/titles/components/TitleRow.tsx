@@ -111,7 +111,9 @@ export function TitleRow({
         <ConfirmDialog
           titleName={title.name}
           isPending={isDeleting}
-          onCancel={() => { setShowConfirm(false); }}
+          onCancel={() => {
+            setShowConfirm(false);
+          }}
           onConfirm={() => {
             onDelete?.(title.id);
             setShowConfirm(false);

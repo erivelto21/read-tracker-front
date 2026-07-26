@@ -10,12 +10,12 @@ export default defineConfig({
     },
   },
   test: {
-    environment: 'jsdom',
+    environment: "jsdom",
     globals: true,
-    setupFiles: ['src/utils/test-setup.ts'],
-    exclude: ['**/node_modules/**', '**/dist/**', 'tests/e2e/**'],
+    setupFiles: ["src/utils/test-setup.ts"],
+    exclude: ["**/node_modules/**", "**/dist/**", "tests/e2e/**"],
     env: {
-      VITE_API_URL: 'http://localhost:8080',
+      VITE_API_URL: "http://localhost:8080",
     },
   },
 });
