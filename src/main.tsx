@@ -9,12 +9,16 @@ import "./index.css";
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("Root element not found");
 
+const intentionalBuildError: string =
+123;
+
 createRoot(rootEl).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
           <Route path="/titles" element={<TitlesPage />} />
+          <Route   path="/pipe-check-build-error"   element={<div>{intentionalBuildError}</div>} />
           <Route path="*" element={<Navigate to="/titles" replace />} />
         </Routes>
       </BrowserRouter>
