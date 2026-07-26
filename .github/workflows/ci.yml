@@ -1,0 +1,26 @@
+name: Validate React CI
+
+on:
+  pull_request:
+
+jobs:
+  commit-message:
+    uses: erivelto21/ci-templates/.github/workflows/validate-pull-request-commit-messages.yml@main
+    with:
+      commit_range: ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
+
+  react-validation:
+    needs:
+      - commit-message
+    uses: erivelto21/ci-templates/.github/workflows/validate-pull-request-react.yml@main
+
+  ci:
+    runs-on: ubuntu-latest
+    needs:
+      - commit-message
+      - react-validation
+
+    steps:
+      - name: Mark CI complete
+        shell: bash
+        run: echo "CI passed"
