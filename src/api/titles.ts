@@ -1,5 +1,10 @@
 import { client } from "./client";
-import type { Title, TitleFilter, CreateTitlePayload, UpdateTitlePayload } from "@/features/titles/types";
+import type {
+  Title,
+  TitleFilter,
+  CreateTitlePayload,
+  UpdateTitlePayload,
+} from "@/features/titles/types";
 
 export async function listTitles(
   filter: TitleFilter,
@@ -29,6 +34,9 @@ export async function updateTitle(
   id: string,
   payload: UpdateTitlePayload,
 ): Promise<{ data: Title }> {
-  const { data } = await client.patch<{ data: Title }>(`v1/titles/${id}`, payload);
+  const { data } = await client.patch<{ data: Title }>(
+    `v1/titles/${id}`,
+    payload,
+  );
   return data;
 }

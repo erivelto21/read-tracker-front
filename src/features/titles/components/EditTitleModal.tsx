@@ -56,7 +56,9 @@ export function EditTitleModal({
     link: title.link ?? "",
     observation: title.observation ?? "",
   });
-  const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldKey, string>>>({});
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<Record<FieldKey, string>>
+  >({});
   const [topLevelError, setTopLevelError] = useState<string | null>(null);
 
   const { mutate, isPending } = useUpdateTitle();
@@ -95,7 +97,8 @@ export function EditTitleModal({
     if (fields.chapter.trim()) payload.chapter = Number(fields.chapter);
     if (fields.page.trim()) payload.page = Number(fields.page);
     if (fields.link.trim()) payload.link = fields.link.trim();
-    if (fields.observation.trim()) payload.observation = fields.observation.trim();
+    if (fields.observation.trim())
+      payload.observation = fields.observation.trim();
 
     setTopLevelError(null);
     setFieldErrors({});
@@ -111,14 +114,20 @@ export function EditTitleModal({
             const data = err.response?.data as ApiErrorBody | undefined;
             const status = err.response?.status;
 
-            if (status === 400 && data?.error.details && data.error.details.length > 0) {
+            if (
+              status === 400 &&
+              data?.error.details &&
+              data.error.details.length > 0
+            ) {
               const fe: Partial<Record<FieldKey, string>> = {};
               for (const detail of data.error.details) {
                 fe[detail.field.toLowerCase() as FieldKey] = detail.message;
               }
               setFieldErrors(fe);
             } else {
-              setTopLevelError("An unexpected error occurred. Please try again.");
+              setTopLevelError(
+                "An unexpected error occurred. Please try again.",
+              );
             }
           } else {
             setTopLevelError("An unexpected error occurred. Please try again.");
@@ -152,7 +161,9 @@ export function EditTitleModal({
 
         <div className="mb-6">
           <h2 className="text-lg font-semibold text-gray-900">{title.name}</h2>
-          <p className="text-sm text-gray-500 capitalize mt-0.5">{title.type}</p>
+          <p className="text-sm text-gray-500 capitalize mt-0.5">
+            {title.type}
+          </p>
         </div>
 
         {topLevelError && (
@@ -188,7 +199,9 @@ export function EditTitleModal({
                   )}
                 />
                 {fieldErrors[key] && (
-                  <p className="mt-1 text-xs text-red-600">{fieldErrors[key]}</p>
+                  <p className="mt-1 text-xs text-red-600">
+                    {fieldErrors[key]}
+                  </p>
                 )}
               </div>
             ))}

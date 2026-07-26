@@ -26,9 +26,7 @@ export function ConfirmDialog({
         <h2 className="text-base font-semibold text-gray-900">
           Delete &ldquo;{titleName}&rdquo;?
         </h2>
-        <p className="mt-1 text-sm text-gray-500">
-          This cannot be undone.
-        </p>
+        <p className="mt-1 text-sm text-gray-500">This cannot be undone.</p>
         <div className="mt-5 flex justify-end gap-3">
           <button
             type="button"

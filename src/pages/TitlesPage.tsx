@@ -9,7 +9,7 @@ import { CreateTitleModal } from "@/features/titles/components/CreateTitleModal"
 type TypeOption = TitleType | "";
 
 const TYPE_OPTIONS: { value: TypeOption; label: string }[] = [
-  { value: '', label: 'All types' },
+  { value: "", label: "All types" },
   ...TITLE_TYPES.map((t) => ({
     value: t,
     label: t.charAt(0).toUpperCase() + t.slice(1),
