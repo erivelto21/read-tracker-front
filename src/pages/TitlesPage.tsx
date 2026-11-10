@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useUnreadCount } from "@/features/chapters/hooks/useUnreadCount";
 import { TITLE_TYPES } from "@/features/titles/types";
 import type { TitleType } from "@/features/titles/types";
 import { useListTitles } from "@/features/titles/hooks/useListTitles";
@@ -22,6 +24,8 @@ export function TitlesPage(): React.JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isLoading, isError } = useListTitles({ name, type });
+  const unread = useUnreadCount();
+  const unreadCount = unread.data?.data.excludingImported ?? 0;
 
   function handleRowClick(id: string): void {
     // TODO: navigate to detail/edit view for title with `id`
@@ -31,7 +35,33 @@ export function TitlesPage(): React.JSX.Element {
   return (
     <div className="min-h-screen bg-sky-50 p-6" data-testid="titles-page">
       <div className="max-w-5xl mx-auto space-y-4">
-        <h1 className="text-2xl font-bold text-gray-900">Reading List</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-gray-900">Reading List</h1>
+          <nav className="flex items-center gap-4">
+            <Link
+              to="/chapters"
+              data-testid="chapters-link"
+              className="text-sm text-sky-700 hover:underline flex items-center gap-1"
+            >
+              New chapters
+              {unreadCount > 0 && (
+                <span
+                  data-testid="unread-badge"
+                  className="rounded-full bg-sky-600 text-white text-xs px-2 py-0.5"
+                >
+                  {unreadCount}
+                </span>
+              )}
+            </Link>
+            <Link
+              to="/sources"
+              data-testid="sources-link"
+              className="text-sm text-sky-700 hover:underline"
+            >
+              Sources
+            </Link>
+          </nav>
+        </div>
 
         {/* Filter card */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 flex flex-wrap gap-4 items-center">
