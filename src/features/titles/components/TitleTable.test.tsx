@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { TitleTable } from "@/features/titles/components/TitleTable";
 import { renderWithProviders } from "@/utils/test-utils";
 import type { Title } from "@/features/titles/types";
@@ -41,6 +42,51 @@ describe("TitleTable", () => {
 
     const statusCells = screen.getAllByText("Reading");
     expect(statusCells).toHaveLength(mockTitles.length);
+  });
+
+  it("renders the title name as a link opening the configured link in a new tab", () => {
+    const titles: Title[] = [
+      {
+        id: "4",
+        name: "Berserk",
+        type: "manga",
+        chapter: 100,
+        link: "https://example.com/berserk",
+      },
+    ];
+    renderWithProviders(<TitleTable titles={titles} />);
+
+    const link = screen.getByRole("link", { name: "Berserk" });
+    expect(link).toHaveAttribute("href", "https://example.com/berserk");
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
+  it("renders a plain name when the title has no link", () => {
+    const titles: Title[] = [{ id: "5", name: "No Link", type: "book" }];
+    renderWithProviders(<TitleTable titles={titles} />);
+
+    expect(screen.queryByRole("link", { name: "No Link" })).not.toBeInTheDocument();
+    expect(screen.getByText("No Link")).toBeInTheDocument();
+  });
+
+  it("does not trigger the row click when the name link is clicked", async () => {
+    const titles: Title[] = [
+      {
+        id: "6",
+        name: "Berserk",
+        type: "manga",
+        chapter: 100,
+        link: "https://example.com/berserk",
+      },
+    ];
+    const onRowClick = vi.fn();
+    const user = userEvent.setup();
+    renderWithProviders(<TitleTable titles={titles} onRowClick={onRowClick} />);
+
+    await user.click(screen.getByRole("link", { name: "Berserk" }));
+
+    expect(onRowClick).not.toHaveBeenCalled();
   });
 
   it("shows empty-state message when titles array is empty", () => {

@@ -43,7 +43,23 @@ export function TitleRow({
           ${onClick ? "cursor-pointer" : ""}
         `}
       >
-        <td className="px-4 py-3 text-gray-900 font-medium">{title.name}</td>
+        <td className="px-4 py-3 text-gray-900 font-medium">
+          {title.link ? (
+            <a
+              href={title.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              className="hover:text-sky-600 hover:underline transition-colors"
+            >
+              {title.name}
+            </a>
+          ) : (
+            title.name
+          )}
+        </td>
         <td className="px-4 py-3 text-gray-600 capitalize">{title.type}</td>
         <td className="px-4 py-3 text-gray-600 text-right tabular-nums">
           {formatProgress(title.chapter, title.page)}
