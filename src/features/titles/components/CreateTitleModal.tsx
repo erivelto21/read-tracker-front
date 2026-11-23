@@ -297,6 +297,7 @@ export function CreateTitleModal({
                           ? "url"
                           : "text"
                     }
+                    step={key === "chapter" ? "any" : undefined}
                     value={fields[key]}
                     onChange={(e) => {
                       handleFieldChange(key, e.target.value);
