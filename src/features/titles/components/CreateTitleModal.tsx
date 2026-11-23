@@ -15,13 +15,20 @@ const TYPE_OPTIONS = TITLE_TYPES.map((t) => ({
   label: t.charAt(0).toUpperCase() + t.slice(1),
 }));
 
-type FieldKey = "name" | "chapter" | "page" | "link" | "observation";
+type FieldKey =
+  | "name"
+  | "chapter"
+  | "page"
+  | "link"
+  | "selector"
+  | "observation";
 
 interface FieldValues {
   name: string;
   chapter: string;
   page: string;
   link: string;
+  selector: string;
   observation: string;
 }
 
@@ -38,6 +45,7 @@ const EMPTY_FIELDS: FieldValues = {
   chapter: "",
   page: "",
   link: "",
+  selector: "",
   observation: "",
 };
 
@@ -46,6 +54,7 @@ const FIELD_LABELS: Record<FieldKey, string> = {
   chapter: "Chapter",
   page: "Page",
   link: "Link",
+  selector: "Selector",
   observation: "Observation",
 };
 
@@ -56,7 +65,7 @@ function visibleFields(type: TitleType): FieldKey[] {
     case "manga":
     case "manhua":
     case "novel":
-      return ["name", "chapter", "link", "observation"];
+      return ["name", "chapter", "link", "selector", "observation"];
     case "article":
       return ["name", "link", "observation"];
   }
@@ -69,7 +78,7 @@ function requiredFields(type: TitleType): FieldKey[] {
     case "manga":
     case "manhua":
     case "novel":
-      return ["name", "chapter", "link"];
+      return ["name", "chapter", "link", "selector"];
     case "article":
       return ["name", "link"];
   }
@@ -144,6 +153,7 @@ export function CreateTitleModal({
       ...(fields.chapter.trim() ? { chapter: Number(fields.chapter) } : {}),
       ...(fields.page.trim() ? { page: Number(fields.page) } : {}),
       ...(fields.link.trim() ? { link: fields.link.trim() } : {}),
+      ...(fields.selector.trim() ? { selector: fields.selector.trim() } : {}),
       ...(fields.observation.trim()
         ? { observation: fields.observation.trim() }
         : {}),

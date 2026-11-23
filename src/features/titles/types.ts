@@ -14,6 +14,7 @@ export interface Title {
   chapter?: number;
   page?: number;
   link?: string;
+  selector?: string;
   observation?: string;
 }
 
@@ -28,6 +29,7 @@ export interface CreateTitlePayload {
   chapter?: number;
   page?: number;
   link?: string;
+  selector?: string;
   observation?: string;
 }
 
@@ -35,5 +37,6 @@ export interface UpdateTitlePayload {
   chapter?: number;
   page?: number;
   link?: string;
+  selector?: string;
   observation?: string;
 }

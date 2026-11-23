@@ -9,12 +9,13 @@ interface EditTitleModalProps {
   onClose: () => void;
 }
 
-type FieldKey = "chapter" | "page" | "link" | "observation";
+type FieldKey = "chapter" | "page" | "link" | "selector" | "observation";
 
 interface FieldValues {
   chapter: string;
   page: string;
   link: string;
+  selector: string;
   observation: string;
 }
 
@@ -30,6 +31,7 @@ const FIELD_LABELS: Record<FieldKey, string> = {
   chapter: "Chapter",
   page: "Page",
   link: "Link",
+  selector: "Selector",
   observation: "Observation",
 };
 
@@ -40,7 +42,7 @@ function visibleFields(type: TitleType): FieldKey[] {
     case "manga":
     case "manhua":
     case "novel":
-      return ["chapter", "link", "observation"];
+      return ["chapter", "link", "selector", "observation"];
     case "article":
       return ["link", "observation"];
   }
@@ -54,6 +56,7 @@ export function EditTitleModal({
     chapter: title.chapter !== undefined ? String(title.chapter) : "",
     page: title.page !== undefined ? String(title.page) : "",
     link: title.link ?? "",
+    selector: title.selector ?? "",
     observation: title.observation ?? "",
   });
   const [fieldErrors, setFieldErrors] = useState<
@@ -97,6 +100,7 @@ export function EditTitleModal({
     if (fields.chapter.trim()) payload.chapter = Number(fields.chapter);
     if (fields.page.trim()) payload.page = Number(fields.page);
     if (fields.link.trim()) payload.link = fields.link.trim();
+    if (fields.selector.trim()) payload.selector = fields.selector.trim();
     if (fields.observation.trim())
       payload.observation = fields.observation.trim();
 
