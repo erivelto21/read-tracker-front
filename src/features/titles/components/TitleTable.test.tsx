@@ -66,7 +66,9 @@ describe("TitleTable", () => {
     const titles: Title[] = [{ id: "5", name: "No Link", type: "book" }];
     renderWithProviders(<TitleTable titles={titles} />);
 
-    expect(screen.queryByRole("link", { name: "No Link" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "No Link" }),
+    ).not.toBeInTheDocument();
     expect(screen.getByText("No Link")).toBeInTheDocument();
   });
 
